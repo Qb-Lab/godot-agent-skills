@@ -84,7 +84,24 @@ The strategy and design skills also chain into a greenlight pipeline for new gam
 `design-record` keeping every verdict on file. The router documents the full pipeline. Roles
 you might expect and won't find — level design, enemy/AI design, narrative, Steam launch
 strategy — are deliberately absent: they are premature before a validated prototype, and the
-technical halves are covered by the larger packs this one delegates to.
+technical halves are covered by the larger packs this one delegates to. Art direction *is*
+present (below), but built the same way: blockouts are the prototype, nothing is polished
+before the loop is verified fun, and taste stays a human call.
+
+### Production — art direction and asset production
+
+| Skill | Purpose |
+|---|---|
+| `art-direction` | The design-side `grill-me`: one decision at a time, taught before asked, options with tradeoffs and a recommendation — producing the Art Bible, the production plan, and buildable asset specs |
+| `asset-builder` | Executes approved asset work by the right method — blockout before beauty, shader not texture, kit not thirty walls — and leaves it game-ready in Godot with its state recorded |
+| `asset-review` | The separated judge: inspects the real files and scenes against concept, Art Bible, spec, budgets, and Godot practice; the only thing that marks an asset VALIDATED |
+
+State lives in the game project, not in the conversation: `docs/design/ART-BIBLE.md`,
+`PRODUCTION.md`, and `asset-registry.json` beside `design-record`'s `GAME.md` and
+`DECISIONS.md`. `art-direction/scripts/registry.py status` tells a fresh session what exists,
+what is approved, what was rejected, and what is next — so "continue with the game design"
+three weeks later starts from the record, not from questions already answered. The pipeline,
+lifecycle, and nine worked examples are in [docs/ART-PIPELINE.md](docs/ART-PIPELINE.md).
 
 ### Router
 
@@ -99,7 +116,7 @@ This pack is built to sit **on top of** the larger Godot packs, not to replace t
 | GDScript idiom, nodes, physics, UI, shaders, audio, tilemaps, 3D, multiplayer | [GodotPrompter](https://github.com/jame581/GodotPrompter) (55 skills), [awesome-gamedev-agent-skills](https://github.com/gamedev-skills/awesome-gamedev-agent-skills) (68) |
 | Performance, export, CI, distribution | either of the above |
 | Running tests — GdUnit4, PlayGodot, E2E | [Randroids-Dojo/Godot-Claude-Skills](https://github.com/Randroids-Dojo/Godot-Claude-Skills) |
-| Scene-file surgery, Godot 3→4 guard, verification discipline, workflow, design | this pack |
+| Scene-file surgery, Godot 3→4 guard, verification discipline, workflow, design, art direction & asset production state | this pack |
 
 **Known name collisions** if you install more than one pack into a flat skills directory:
 this pack previously shipped `gdscript-patterns` (collides with GodotPrompter) and
@@ -141,6 +158,10 @@ npx skills add Qb-Lab/godot-agent-skills \
 npx skills add Qb-Lab/godot-agent-skills \
   -s market-scan -s concept-eval -s scope-control -s streamability \
   -s playtest-review -s design-record
+
+# The art pipeline — direction, production, review (install all three; they share one registry tool)
+npx skills add Qb-Lab/godot-agent-skills \
+  -s art-direction -s asset-builder -s asset-review -s design-record
 ```
 
 `using-godot-skills` references the other skills by name, so install it last or edit its tables

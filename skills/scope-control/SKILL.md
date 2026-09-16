@@ -78,7 +78,8 @@ Part of scope control is knowing what not to spend agent cycles on. Some judgmen
 human specialist, and pretending otherwise burns time and produces confident mediocrity:
 
 - **Visual art direction, animation polish, music taste** — Claude can critique structure
-  and reference comparables, not supply taste.
+  and reference comparables, not supply taste. `art-direction` runs that conversation as
+  options-with-a-recommendation and records the human's call; it does not replace the human.
 - **Whether gameplay actually feels satisfying, what makes people laugh, emotional response**
   — real players only. Simulated playtests are fiction (see `playtest-review`).
 

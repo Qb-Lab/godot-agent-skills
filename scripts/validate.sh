@@ -14,16 +14,43 @@ while IFS= read -r f; do
 
   name="$(sed -n '2,10p' "$f" | grep -m1 '^name:' | sed 's/^name:[[:space:]]*//')"
   desc="$(sed -n '2,10p' "$f" | grep -m1 '^description:' | sed 's/^description:[[:space:]]*//')"
+  cat_="$(sed -n '2,10p' "$f" | grep -m1 '^category:' | sed 's/^category:[[:space:]]*//')"
   dir="$(basename "$(dirname "$f")")"
 
   [ -n "$name" ] || { echo "FAIL $rel: missing name"; fail=1; }
   [ -n "$desc" ] || { echo "FAIL $rel: missing description"; fail=1; }
+  case "$cat_" in
+    engineering|productivity|design|strategy|production|router) ;;
+    "") echo "FAIL $rel: missing category"; fail=1;;
+    *) echo "FAIL $rel: unknown category '$cat_'"; fail=1;;
+  esac
   [ "$name" = "$dir" ] || { echo "FAIL $rel: name '$name' != folder '$dir'"; fail=1; }
   [ "${#desc}" -ge 60 ] || { echo "WARN $rel: description is short; triggering may suffer"; }
 
   case " $names " in *" $name "*) echo "FAIL $rel: duplicate name '$name'"; fail=1;; esac
   names="$names $name"
 done < <(find "$ROOT/skills" -name SKILL.md -type f | sort)
+
+# --- bundled skill scripts -----------------------------------------------------------
+# Same bar as the hooks: executable, and it parses. A helper another skill resolves as a
+# sibling must exist where the SKILL.md says it does.
+while IFS= read -r sc; do
+  rel="${sc#"$ROOT"/}"
+  [ -x "$sc" ] || { echo "FAIL $rel: not executable (chmod +x)"; fail=1; }
+  case "$sc" in
+    *.sh) bash -n "$sc" 2>/dev/null || { echo "FAIL $rel: bash syntax error"; fail=1; };;
+    *.py) python3 -c 'import py_compile,sys; py_compile.compile(sys.argv[1], doraise=True)' "$sc" >/dev/null 2>&1 \
+            || { echo "FAIL $rel: python syntax error"; fail=1; };;
+  esac
+done < <(find "$ROOT/skills" -path '*/scripts/*' -type f \( -name '*.sh' -o -name '*.py' \) | sort)
+
+# Cross-skill references: a SKILL.md that names ../<skill>/scripts/<file> must point at a real file.
+while IFS= read -r line; do
+  f="${line%%:*}"; ref="${line#*:}"
+  skilldir="$(dirname "$f")"; [ "$(basename "$skilldir")" = references ] && skilldir="$(dirname "$skilldir")"
+  target="$skilldir/$ref"
+  [ -f "$target" ] || { echo "FAIL ${f#"$ROOT"/}: references missing $ref"; fail=1; }
+done < <(grep -oH '\.\./[a-z0-9-]*/scripts/[A-Za-z0-9_.-]*' "$ROOT"/skills/*/SKILL.md "$ROOT"/skills/*/references/*.md 2>/dev/null | sort -u)
 
 # --- control layer -----------------------------------------------------------------
 HOOKS="$ROOT/hooks/hooks.json"

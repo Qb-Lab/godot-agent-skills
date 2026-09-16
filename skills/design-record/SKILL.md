@@ -12,7 +12,9 @@ month ago, and the user either wastes a cycle re-litigating or — worse — doe
 either and re-approves it. Durable memory is what turns a series of sessions into a studio.
 
 `HANDOFF.md` (`session-handoff`) is the *session* snapshot: what works right now, what's next.
-This skill owns the *project* truth: two files that outlive any session.
+This skill owns the *project* truth: two files that outlive any session. The art pipeline adds
+three siblings in the same folder — `ART-BIBLE.md`, `PRODUCTION.md`, `asset-registry.json` —
+owned by `art-direction`; they cite decisions from here rather than restating them.
 
 ## The two files
 
@@ -45,7 +47,8 @@ The must-have list from scope-control. Anything not on it is not in the MVP.
 Technical, market, and design risks currently accepted, one line each.
 
 ## Art direction / audio direction
-Current intent and references — and which calls are reserved for a human specialist.
+Current intent and references — and which calls are reserved for a human specialist. Once
+`ART-BIBLE.md` exists (`art-direction`), this section is one line pointing at it.
 
 ## Backlog
 "Valuable later" items, with the condition that unlocks each.
@@ -55,10 +58,11 @@ Undecided forks, each naming what evidence would settle it.
 ```
 
 **`docs/design/DECISIONS.md`** — append-only log, newest first. One entry per decision that
-shaped the game:
+shaped the game, each with a stable id (`DD-001`, `DD-002`, … — never reused, never renumbered)
+so specs, plans, the Art Bible, and asset registry entries can cite it:
 
 ```markdown
-## <decision title> — <YYYY-MM-DD>
+## DD-014 — <decision title> — <YYYY-MM-DD>
 Decision:
 Reason:
 Evidence: (market brief, playtest finding, prototype result — or honestly "judgment call")
@@ -75,9 +79,12 @@ superseded, the old entry stays — history is the point — and `GAME.md` chang
 A decision earns an entry when reversing it later would be expensive or when someone might
 plausibly re-propose the alternative: concept verdicts from `concept-eval`, MVP cuts and
 overrides from `scope-control`, forks settled through `grill-me`, mechanics killed by
-`playtest-review` findings, architecture choices with migration cost. Tiny freely-reversible
-calls don't get entries; a log with two hundred entries is a log nobody reads. Convert
-relative dates ("next month") to absolute ones — the reader has no idea when "now" was.
+`playtest-review` findings, architecture choices with migration cost, and art-direction calls
+from `art-direction` — style family, proportions, kit grid, palette strategy, anything an
+asset's spec will cite. When a decision is cited by an id, the id is what other files use;
+the title can be edited, the id cannot. Tiny freely-reversible calls don't get entries; a log
+with two hundred entries is a log nobody reads. Convert relative dates ("next month") to
+absolute ones — the reader has no idea when "now" was.
 
 Record overrides with special care. When the user overrides a KILL or a producer's no, the
 entry states the recommendation, the override, and the accepted risk — one plain line, no

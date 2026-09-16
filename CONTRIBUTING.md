@@ -7,7 +7,9 @@
    table in the router instead of writing a skill. Duplicating them costs context and
    creates version-skew disagreements the model has to arbitrate.
 1. Create `skills/<skill-name>/SKILL.md` (flat — the `category:` field is the grouping)
-2. Frontmatter needs `name`, `description`, and `category`
+2. Frontmatter needs `name`, `description`, and `category` (one of `engineering`,
+   `productivity`, `design`, `strategy`, `production`, `router` — see the router's
+   *Categories* section for what each says about how fast the contents rot)
 3. Check the name against the other packs — a directory-name collision makes `install.sh`
    silently clobber one of them. `validate.sh` blocks the two known ones.
 4. Add it to the "what this pack owns" table in `skills/using-godot-skills/SKILL.md`
@@ -29,7 +31,17 @@ Include the error messages and user phrasings that should pull the skill in.
 
 - Imperative voice
 - Explain *why* something matters rather than stacking MUSTs — a model that understands the reason generalizes to cases you did not list
-- Under ~500 lines; past that, split into `references/` and point at them from SKILL.md
+- Under ~500 lines; past that, split into `references/` and point at them from SKILL.md.
+  Domain knowledge the model needs only sometimes (checklists, maps, glossaries) belongs in
+  `references/` from the start — the SKILL.md carries the method, the references carry the
+  material.
+- Executable helpers go in `scripts/`, stdlib-only, with a `--help`; resolve them from the
+  loaded SKILL.md's directory, never from a hard-coded install path. A helper shared by
+  several skills lives in exactly one of them and the others resolve it as a sibling
+  (`$SKILL_DIR/../<owner>/scripts/…`) with a stated fallback. `validate.sh` lints them.
+- State a skill keeps between sessions lives in the *game project* (`docs/design/`,
+  `HANDOFF.md`, a registry file), never in the skill directory, and is machine-readable when
+  another skill has to act on it.
 - Concrete examples over abstract rules
 - Version-specific claims need a version attached
 

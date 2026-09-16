@@ -1,6 +1,6 @@
 ---
 name: using-godot-skills
-description: Index and precedence rules for the godot-agent-skills pack, and how it composes with other installed Godot skill packs (GodotPrompter, awesome-gamedev, Randroids-Dojo). Consult when a Godot task could be served by more than one installed skill, when two packs give conflicting API advice, or when you need to know which pack owns a given concern. Use whenever a request involves Godot, GDScript, .tscn or .tres files, game feel, game balance, game concepts or market viability, scope or playtesting, or planning game development work.
+description: Index and precedence rules for the godot-agent-skills pack, and how it composes with other installed Godot skill packs (GodotPrompter, awesome-gamedev, Randroids-Dojo). Consult when a Godot task could be served by more than one installed skill, when two packs give conflicting API advice, or when you need to know which pack owns a given concern. Use whenever a request involves Godot, GDScript, .tscn or .tres files, game feel, game balance, game concepts or market viability, scope or playtesting, art direction or asset production, or planning game development work.
 category: router
 ---
 
@@ -49,6 +49,9 @@ by hand. `scripts/install-hooks.sh` wires them into `settings.json`.
 | Streamer appeal, clips, virality, "does multiplayer earn its cost" | `streamability` |
 | Playtest feedback, "is it actually fun", reviewing a build against intent | `playtest-review` |
 | A decision made / overridden / rejected, "didn't we decide this already" | `design-record` |
+| How the game should look; art style, 2D/3D, camera, characters, monsters, environments, props, animation, shaders, VFX, UI direction; "design the first monster"; "what assets do we need"; "continue with the game design" | `art-direction` — the design-side `grill-me`; writes the Art Bible, production plan, and asset specs |
+| "Build it", "build phase N", "make the X", a variant, a cheaper version, any asset or placeholder to produce | `asset-builder` — reads the registry and Art Bible first; blockout before beauty |
+| "Review / check / approve this asset", something "looks off" or "out of scale", before marking an asset done | `asset-review` — the separated judge; the only thing that sets VALIDATED |
 
 Rows compose — load every skill whose trigger matches, not just the best one. The standing
 combo: an economy or progression *design* still being decided loads `loop-and-economy` for the
@@ -72,8 +75,28 @@ idea → market-scan → concept-eval (+grill-me) → scope-control (MVP cut)
 separate from building on purpose — the session that implemented a build does not also declare
 it fun; that call belongs to `playtest-review` with real players.
 
-The first two are the reason this pack exists: across the ~140 skills in the other Godot
-packs, none covers scene-file surgery and none covers Godot 3 → 4 translation.
+## The art pipeline
+
+Once a concept has a `GAME.md`, the art and asset skills run their own loop beside the
+engineering one, sharing `docs/design/` and the same decision log:
+
+```
+GAME.md → art-direction (discovery → decisions → ART-BIBLE.md + PRODUCTION.md + asset specs)
+        → asset-builder (CONCEPT → BLOCKOUT → user walks it → PRODUCTION → INTEGRATED)
+        → asset-review (VALIDATED | REWORK) → design-record for every call → iterate
+```
+
+State lives in the project, not the conversation: `ART-BIBLE.md` (direction, with lock
+levels), `PRODUCTION.md` (phases and reusable systems), `asset-registry.json` (per-asset
+status, files, approvals, history — read with `art-direction/scripts/registry.py status`),
+`DECISIONS.md` (`DD-` ids). A fresh session saying "continue with the game design" orients
+from those five files and recommends the next action. Blockouts are the prototype
+`scope-control` asks for; nothing past a blockout is polished before the loop is verified fun,
+unless the concept is art-led and the plan says so.
+
+The first two rows of the ownership table are the reason this pack exists: across the ~140
+skills in the other Godot packs, none covers scene-file surgery and none covers Godot 3 → 4
+translation.
 
 ## What this pack delegates
 
@@ -82,6 +105,7 @@ packs, none covers scene-file surgery and none covers Godot 3 → 4 translation.
 | GDScript idiom, typing, lifecycle, signals | `godot-gdscript` (awesome-gamedev), `gdscript-patterns` / `gdscript-advanced` (GodotPrompter) |
 | Scene tree structure, composition, autoloads | `godot-nodes-scenes`, `scene-organization`, `component-system` |
 | Physics, UI, animation, audio, shaders, tilemaps, 3D, multiplayer | the per-topic skills in either pack |
+| Shader syntax, particle properties, import-dock options, `AnimationTree` API — the *how* behind an asset the art pipeline specced | the per-topic skills in either pack; `asset-builder` names the *what* and the checklist |
 | Performance and profiling | `performance-optimization`, `godot-optimization` |
 | Export, CI, distribution | `godot-export` (awesome-gamedev), `export-pipeline` (GodotPrompter) |
 | Actually running tests — GdUnit4, PlayGodot, E2E | the `godot` skill (Randroids-Dojo) |
@@ -111,3 +135,6 @@ Each skill carries a `category:` field. What it tells you is how fast the conten
 - **design** — game design judgment. Not Godot-specific and largely version-proof.
 - **strategy** — market-facing judgment. The *method* ages well; any market *claim* is stale
   in weeks, which is why these skills require fresh research instead of recall.
+- **production** — art direction and asset production. The interview method and the state
+  format age well; the Godot integration checklists and tool notes rot with engine and tool
+  releases — check them against the project's version like any engineering claim.
