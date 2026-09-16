@@ -26,6 +26,14 @@ while IFS= read -r f; do
   esac
   [ "$name" = "$dir" ] || { echo "FAIL $rel: name '$name' != folder '$dir'"; fail=1; }
   [ "${#desc}" -ge 60 ] || { echo "WARN $rel: description is short; triggering may suffer"; }
+  [ "${#desc}" -le 1024 ] || { echo "FAIL $rel: description over 1024 chars"; fail=1; }
+  # The skills CLI parses frontmatter as strict YAML. An unquoted value containing ": " is a
+  # nested mapping and " #" starts a comment — either one silently drops the skill from installs.
+  case "$desc" in
+    \"*|\'*) ;;
+    *": "*) echo "FAIL $rel: description contains ': ' — invalid unquoted YAML (skills CLI skips the skill)"; fail=1;;
+    *" #"*) echo "FAIL $rel: description contains ' #' — starts a YAML comment"; fail=1;;
+  esac
 
   case " $names " in *" $name "*) echo "FAIL $rel: duplicate name '$name'"; fail=1;; esac
   names="$names $name"
