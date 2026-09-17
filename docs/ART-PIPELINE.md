@@ -4,7 +4,8 @@ How the three production skills — `art-direction`, `asset-builder`, `asset-rev
 game concept into game-ready Godot assets without ever depending on conversation memory.
 
 ```
-CONCEPT → QUESTIONS → DECISIONS → PLAN → BLOCKOUT → VALIDATE → BUILD → REVIEW → INTEGRATE → RECORD → ITERATE
+CONCEPT → QUESTIONS → DECISIONS → 5 VISUAL CONCEPTS → COMPARE → APPROVE → PLAN
+→ BLOCKOUT → VALIDATE → BUILD → REVIEW → INTEGRATE → RECORD → ITERATE
 ```
 
 Not: prompt → generate a random asset → hope it fits.
@@ -66,6 +67,24 @@ palette with a warm "grabbable" accent → … When the bar for a *reference boa
 says so and offers to produce it instead of asking the next question. It writes
 `ART-BIBLE.md` (sections at PROVISIONAL/EXPLORING/UNKNOWN), `PRODUCTION.md` with phases shaped
 to this game, `DD-001…` in `DECISIONS.md`, and `registry.py init` + the Phase 0/1 entries.
+
+Once the main direction is PROVISIONAL and the bible draft exists, the next artifact is the
+**visual concept exploration** (`art-direction/references/concept-exploration.md`): the skill
+fixes one comparison scene from the loop — dining room, moonlight through the window, the
+player mid-swing with a chair, the stalker alert at the far door — names five curated
+directions and why each is worth testing for *this* game (say: Stylised Low-Poly Horror,
+Painterly Dark Fantasy, PSX Retro Horror, Colourful Horror-Comedy, Semi-Realistic Cinematic),
+says which it recommends, and generates one first-person near-screenshot per direction with
+the session's image tool. Then a structured card per concept — strengths, weaknesses,
+production cost, Godot suitability, best for — a recommendation, and every door open:
+
+> "I like B's lighting but D's characters."
+
+becomes a smaller round 2 on the same scene combining the two, recorded as a registry entry
+that `depends_on` both parents. Rounds cap at three. The approved image is
+`review approve`d, the losers are `REJECTED` with the user's reasons, a `DD-` entry records
+the choice and its alternatives, and the bible sections the image settles go APPROVED. The
+visual prototype is then built *to that image*.
 
 ### 2. Continuing an existing game's art production
 

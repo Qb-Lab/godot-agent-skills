@@ -22,6 +22,16 @@ Last reviewed: YYYY-MM-DD
 One paragraph: the look in a sentence, the three references it takes from (and what it
 rejects from each), and the one-line answer to "how does this support the game".
 
+## Visual concept exploration  [APPROVED · DD-005]
+Approved target: `CONCEPT_VISUAL_R2_A` — `art/concepts/visual-target/r2_a_lowpoly-moonlit.png`
+(R1 B lighting + R1 D character proportions on the R1 A environment). Rounds: 2 (5 + 3 images).
+Rejected: R1 C (PSX — killed facial reads), R1 E (semi-realistic — cost, generated-asset drift);
+reasons on the registry entries. Status: approved 2026-09-02; revisit if the visual prototype
+fails in-game. The image is the reference every visual-prototype asset is judged against.
+While exploring: list the round, the candidates, and what is still undecided — then delete
+this note when a target is approved. Delete the section if the direction was approved
+without an exploration.
+
 ## Visual pillars  [PROVISIONAL]
 2–4 rules every asset must obey. "Readable at 20 m under one key light." "Everything the
 player can grab has a warm accent." "Nothing is straight — every edge leans." If an asset
@@ -101,6 +111,11 @@ final creature look) and which are batch-approved.
 
 - Start the file at the first PROVISIONAL decision, not when everything is known. An Art
   Bible with six UNKNOWN sections is honest; no Art Bible is how assets drift.
+- The visual concept exploration (`concept-exploration.md`) is what promotes *Visual
+  direction*, *Visual pillars*, *Colour*, *Lighting*, *Shape language*, and *Materials* from
+  PROVISIONAL to APPROVED — as far as the approved image actually shows them. The section
+  above stays short: ids, paths, borrowed traits, status. Reasons and rejected alternatives
+  live in the `DD-` entry and on the registry entries, not here.
 - A rule is checkable: "warm accent on grabbable props" can be reviewed; "cohesive" cannot.
 - Every section answers "how does this support the game" in one clause. If it can't, the
   rule is taste, and taste goes in *Human calls*.

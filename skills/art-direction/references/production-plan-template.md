@@ -12,17 +12,19 @@ Phases are seams where the user must **see something before the next thing is bu
 where the output determines the next phase's design. Never phase by kind of work. The
 recurring shape — adapt it, don't copy it:
 
-- **Visual discovery** — reference board, 2–3 style explorations, palette, shape-language
-  sheet, proportion studies. Output: a direction the user approves; bible sections go
-  PROVISIONAL. Cheap; mostly generated images and written rules.
+- **Visual discovery** — reference board, palette, shape-language sheet, proportion
+  studies, and the **visual concept exploration**: five images of one gameplay moment in
+  five curated directions, compared, refined over at most three rounds, one approved
+  (`art-direction/references/concept-exploration.md`). Output: an approved visual target;
+  bible sections go APPROVED on it. Cheap; mostly generated images and written rules.
 - **Gameplay blockout** — player placeholder at real scale, enemy placeholders, environment
   greybox, gameplay props as primitives with collision and physics, a scale reference in every
   scene. Output: the loop is playable with ugly assets. This phase is the prototype
   `scope-control` wants; it does not wait for the visual direction.
 - **Visual prototype** — *one* representative environment, *one* hero character, *one*
   creature, a handful of props, a first lighting pass, one or two representative VFX, all to
-  final quality in the approved style. Purpose: prove the direction works **inside the
-  game**, in motion, at gameplay distance. Output: bible sections go APPROVED or get changed
+  final quality in the approved style, built to the approved visual-target image. Purpose:
+  prove the direction works **inside the game**, in motion, at gameplay distance. Output: bible sections go APPROVED or get changed
   cheaply. This is the most important checkpoint in the whole pipeline.
 - **Core production kit** — the modular kit(s), master materials, trim sheets, shared rig and
   base animation set, the shader library, the VFX library, UI theme. Output: content can be
@@ -50,7 +52,7 @@ until profiled, no second biome).
 ## Progress
 | Phase | Status | Checkpoint |
 |---|---|---|
-| 0. Visual discovery | done | direction approved 2026-09-02 |
+| 0. Visual discovery | done | visual target `CONCEPT_VISUAL_R2_A` approved 2026-09-02 |
 | 1. Gameplay blockout | in progress | walkthrough with user |
 | 2. Visual prototype | not started | hero character + room approved |
 | 3. Core production kit | not started | kit assembles the prototype room |
@@ -96,10 +98,13 @@ depend on.
 
 ## Phase 0 — Visual discovery
 **Goal:** one sentence.
-**Build:** the registry entries this phase produces (ids), and the bible sections it promotes.
-**Checkpoint:** what the user must approve, and how (`registry.py review <ID> approve`).
-**Exit criteria:** every listed entry ≥ CONCEPT with `review approved`; bible sections named
-here at PROVISIONAL; `registry.py validate` clean.
+**Build:** the registry entries this phase produces (ids) — the `CONCEPT_VISUAL_R<n>_<x>`
+candidates among them — and the bible sections it promotes.
+**Checkpoint:** the user picks the visual target from the concept round(s)
+(`registry.py review CONCEPT_VISUAL_… approve`); rejected candidates are `REJECTED` with reasons.
+**Exit criteria:** one approved visual-target concept; every other listed entry ≥ CONCEPT
+with `review approved`; the bible sections the image settles at APPROVED, the rest at
+PROVISIONAL; `registry.py validate` clean.
 
 ## Phase 1 — Gameplay blockout
 **Goal:** the loop is playable end-to-end with placeholder assets at real scale.

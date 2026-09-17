@@ -20,6 +20,10 @@ do not read them out as a lecture. Grouped the way they come up.
   which is the point. Nothing gets pretty before its blockout works.
 - **Hero asset** — a piece the player stares at (main character, primary creature, signature
   room). Gets bespoke attention and human approval; everything else is production.
+- **Visual target** — one image that shows what a finished frame of the game should look
+  like, from the player's actual camera: environment, character or creature, lighting,
+  materials, palette, readability, mood. Not key art — a vertical-slice screenshot before
+  the slice exists. The thing every prototype asset is compared against.
 - **Scale reference** — a known-size object (a 1.8 m capsule, a 0.9 × 2.1 m door) kept in every
   scene so scale errors are seen immediately.
 

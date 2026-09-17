@@ -1,6 +1,6 @@
 ---
 name: art-direction
-description: The design-side grill — run the game-design, visual-direction, character, creature, environment, prop, animation, VFX, UI, and technical-art conversation the way an art director would with a programmer who is not an artist — one decision at a time, each explained (what we decide, why it matters to this game), with realistic options, tradeoffs, and a recommendation the user can override — then record it as the Art Bible, production plan, and buildable asset specs. Use when the user asks how the game should look or about art style, 2D vs 3D, camera, fidelity, palette, shape language, proportions, characters, monsters, levels, props, animation, shaders, or VFX direction; says "let's design the first monster/player/level"; asks what assets are needed, what phase we are in, or what to build next; says "continue with the game design", "where are we with the art", or "design grill me"; or requests an asset that has no spec yet.
+description: The design-side grill — run the game-design, visual-direction, character, creature, environment, prop, animation, VFX, UI, and tech-art conversation the way an art director would with a programmer who is not an artist — one decision at a time, each explained, with options, tradeoffs, and an overridable recommendation — then show five curated visual-concept images of one gameplay moment so the user can compare directions before the Art Bible locks, and record it all as the Art Bible, production plan, and buildable asset specs. Use when the user asks how the game should look or about art style, 2D vs 3D, camera, fidelity, palette, shape language, proportions, characters, monsters, levels, props, animation, shaders, or VFX; says "show me what it could look like", "compare art styles", or "let's design the first monster/player/level"; asks what assets are needed or what to build next; says "continue with the game design", "where are we with the art", or "design grill me"; or asks for an asset with no spec.
 category: production
 ---
 
@@ -130,6 +130,7 @@ Stop asking when the next artifact is buildable. The bar differs per artifact:
 | Enough for… | needs |
 |---|---|
 | a reference board / style exploration | concept, dimensionality, 2–3 candidate style families |
+| the visual concept exploration (five images) | dimensionality, camera, a main direction the user approved at PROVISIONAL, player scale ≥ EXPLORING, a bible draft, and one nameable environment + character/creature + gameplay moment |
 | a gameplay blockout | dimensionality, camera, player scale, the gameplay assets list |
 | a visual prototype | style family, palette, shape language, one hero character spec, one representative environment spec (all ≥ PROVISIONAL) |
 | a production kit | the above APPROVED after the visual prototype, plus budgets and naming |
@@ -137,7 +138,50 @@ Stop asking when the next artifact is buildable. The bar differs per artifact:
 
 Say which bar you have reached and offer to produce that artifact rather than asking the
 next question. Promoting a level (PROVISIONAL → APPROVED) happens when the user approves
-*output* — a concept sheet, a blockout walked in-game, a visual prototype — not more talk.
+*output* — an approved visual concept, a blockout walked in-game, a visual prototype — not
+more talk.
+
+## Visual concept exploration — five images before the bible locks
+
+Words run out at the fidelity rung. Once the main direction is approved at PROVISIONAL and
+the bible draft exists, the next artifact is not another question: it is **five visual
+concept images of the same gameplay moment in five curated directions**, so the user can
+look and answer "what should this game actually look like?" — before any expensive asset
+exists. The full procedure is `references/concept-exploration.md`; the rules that matter:
+
+- **Place in the flow:** grill → visual requirements → bible draft → **five concepts →
+  comparison → refinement → approval** → bible APPROVED → asset planning → blockout /
+  production. If a question that would change the images is still open (perspective, 2D vs
+  3D, tone), ask it first — do not generate polished concepts on top of an unresolved fork.
+- **One scene, five directions.** Fix the comparison scene first — same location, player
+  position, other body, gameplay moment, composition, light source — and vary only the
+  direction: materials, lighting treatment, palette, geometry style, rendering style,
+  character exaggeration, VFX, atmosphere. Each image is a gameplay visual target from the
+  player's actual camera (a near-screenshot for first-person; the character in the world
+  for third-person; the real angle for top-down; a gameplay scene for 2D) — never a poster,
+  splash art, moodboard, or portrait. The user should be able to imagine the finished game.
+- **Curated, not random.** Five plausible production directions for *this* game, chosen
+  for the tensions in its concept (dread vs comedy; atmosphere vs readability; detail vs
+  cost); one is the grill's recommendation, one deliberately pushes past what the user
+  said. Before generating, say what the five are, why each is worth testing, and which you
+  currently recommend and why — briefly — then generate one image per concept. Check what
+  image tooling the session actually has first; if there is none, say so and hand over
+  the five prompt packages instead of pretending.
+- **Compare, don't choose.** Per concept: strengths, weaknesses, production cost
+  (Low/Medium/High for this team), Godot suitability, best for. Then one recommendation
+  with its reasons — and every door open: choose one, combine aspects, modify one, reject
+  all, another round, more variations of one.
+- **Refine, don't restart.** "Concept 2 lighting with Concept 4 characters" becomes a
+  refined direction block on the same scene and a smaller round. Round 1 broad, round 2
+  narrowed, round 3 final target; stop there — past that it is taste, so ask for the pick.
+- **Persist it.** Each image is a registry `concept` entry with its file, tool, model,
+  prompt, and seed; the winner gets `review approve`, the rejected get `REJECTED` with the
+  user's reason, refined entries name the borrowed traits in their spec and `supersede`
+  the parents they drew from.
+  One `DD-` entry records the choice and the alternatives; the bible's *Visual concept
+  exploration* section points at the approved image, and the sections the image settles go
+  to `APPROVED`. A later session must know which concept won, which lost and why, and what
+  was borrowed from where — from files, not memory.
 
 ## What this skill writes
 
@@ -157,7 +201,8 @@ reasons live in the decision log. Never duplicate one into another — link.
   inherits, requirements, LOD/animation/networking needs, `hero` (needs your approval at
   concept) and `blockout` (gameplay-heavy: validate scale/collision/reach before beauty)
   flags, dependencies, kit membership, the decisions it rests on. Format, lifecycle, and
-  gates: `references/asset-registry.md`.
+  gates: `references/asset-registry.md`. Visual-concept images are entries too (type
+  `concept`, with their generation metadata), so approval and rejection outlive the chat.
 - **`docs/design/DECISIONS.md`** — every direction call that someone could plausibly
   re-propose, as a `design-record` entry with a stable `DD-NNN` id, alternatives, and the
   revisit condition. Cite those ids from the bible and the specs.
@@ -185,9 +230,9 @@ Read the spec for CREATURE_STALKER_01 in the registry and build its concept stag
 ## Human checkpoints
 
 Claude proposes; taste is the user's. Ask for explicit approval — and record it with
-`registry.py review <ID> approve` — on: the overall direction, the main character, each
-primary creature, the representative environment, and any palette or style change after the
-visual prototype. Small props, variants, and kit pieces get batch approval; say so up front
+`registry.py review <ID> approve` — on: the overall direction, the winning visual concept
+(never promoted on your own recommendation), the main character, each primary creature, the
+representative environment, and any palette or style change after the visual prototype. Small props, variants, and kit pieces get batch approval; say so up front
 so they are not waiting on you for a chair.
 
 ## Ending

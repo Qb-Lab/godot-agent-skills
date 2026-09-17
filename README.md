@@ -92,7 +92,7 @@ before the loop is verified fun, and taste stays a human call.
 
 | Skill | Purpose |
 |---|---|
-| `art-direction` | The design-side `grill-me`: one decision at a time, taught before asked, options with tradeoffs and a recommendation — producing the Art Bible, the production plan, and buildable asset specs |
+| `art-direction` | The design-side `grill-me`: one decision at a time, taught before asked, options with tradeoffs and a recommendation — then five curated visual-concept images of one gameplay moment to compare and refine before the Art Bible locks — producing the Art Bible, the production plan, and buildable asset specs |
 | `asset-builder` | Executes approved asset work by the right method — blockout before beauty, shader not texture, kit not thirty walls — and leaves it game-ready in Godot with its state recorded |
 | `asset-review` | The separated judge: inspects the real files and scenes against concept, Art Bible, spec, budgets, and Godot practice; the only thing that marks an asset VALIDATED |
 
