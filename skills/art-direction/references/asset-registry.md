@@ -99,12 +99,15 @@ reaches it, so "a file exists" can never become "done" by accident.
 **Ids** are `CATEGORY_NAME_NN`, upper-case with underscores, stable forever. Prefixes in use
 are the team's convention — the registry only checks the shape. Common: `CHAR_`, `CREATURE_`,
 `ENV_` (`ENV_PROP_`, `ENV_ROOM_`), `KIT_`, `MAT_`, `SHADER_`, `VFX_`, `ANIM_`, `UI_`, `ICON_`,
-`DECAL_`, `CONCEPT_`, `REF_`, `CMP_` (a reusable component), `WEAPON_`, `VEHICLE_`.
+`DECAL_`, `CONCEPT_`, `REF_`, `CMP_` (a reusable component), `WEAPON_`, `VEHICLE_`,
+`STORE_` (store assets: `STORE_CAPSULE_MAIN_01`, `STORE_TRAILER_01`, `STORE_SHOT_03`).
 
 **Types:** character, creature, architecture, environment, prop, interactive-prop, weapon,
 vehicle, ui, texture, material, shader, animation, vfx, decal, icon, concept, reference,
-audio-hook, kit. A `kit` entry represents the family (grid, pivot, piece list); its pieces
-set `kit` and `depends_on` it.
+audio-hook, kit — plus the store types capsule, logo, trailer, screenshot, showcase, used by
+`steam-store-assets` so a capsule candidate's approval or rejection outlives the chat the
+same way an in-game asset's does. A `kit` entry represents the family (grid, pivot, piece
+list); its pieces set `kit` and `depends_on` it.
 
 **Spec** is free-form keys, but a fresh session must be able to build from it: purpose,
 gameplay role, the visual rules it inherits (cite bible sections and `DD-` ids rather than

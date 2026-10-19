@@ -52,6 +52,9 @@ by hand. `scripts/install-hooks.sh` wires them into `settings.json`.
 | How the game should look; art style, 2D/3D, camera, characters, monsters, environments, props, animation, shaders, VFX, UI direction; "design the first monster"; "what assets do we need"; "continue with the game design" | `art-direction` — the design-side `grill-me`; writes the Art Bible, production plan, and asset specs |
 | "Build it", "build phase N", "make the X", a variant, a cheaper version, any asset or placeholder to produce | `asset-builder` — reads the registry and Art Bible first; blockout before beauty |
 | "Review / check / approve this asset", something "looks off" or "out of scale", before marking an asset done | `asset-review` — the separated judge; the only thing that sets VALIDATED |
+| A Steam store page, store copy, short or long description, tags, store localization, release-date presentation, wishlists, Coming Soon, announcing the game | `steam-store-page` — funnel order, and every claim labelled OFFICIAL / BEST PRACTICE / EXPERIMENT |
+| "Make the capsule", "cut the trailer", "take the store screenshots", a store GIF, "this capsule looks AI-generated" | `steam-store-assets` — candidates, then the thumbnail ladder; Godot staging for captures |
+| "Is my page ready", "will this convert", "check my page before I submit", a store page or capsule audit | `steam-store-review` — compliance matrix, conversion score, one weakness, one fix |
 
 Rows compose — load every skill whose trigger matches, not just the best one. The standing
 combo: an economy or progression *design* still being decided loads `loop-and-economy` for the
@@ -93,6 +96,32 @@ status, files, approvals, history — read with `art-direction/scripts/registry.
 from those five files and recommends the next action. Blockouts are the prototype
 `scope-control` asks for; nothing past a blockout is polished before the loop is verified fun,
 unless the concept is art-led and the plan says so.
+
+## The store pipeline
+
+The storefront is the last pipeline and it has the same shape: a grill that decides, a builder
+that produces, a judge that is a different session on purpose.
+
+```
+GAME.md + market brief → steam-store-page (funnel grill → STORE.md + asset briefs)
+                       → steam-store-assets (candidates → thumbnail ladder → user picks → export)
+                       → steam-store-review (compliance + conversion → READY | NOT READY) → iterate
+```
+
+Two rules hold the whole thing together. **Every claim carries its tier** — an official Valve
+requirement, a conversion best practice, or an experiment worth testing — because a team that
+mistakes the second for the first spends days on numbers Valve never asked for. And **official
+requirements are re-read from Steamworks, never recalled**, exactly as `market-scan` treats
+market data: asset sizes, field limits, and review lead times change, and
+`steam-store-page/references/steam-requirements.md` carries the date it was last read rather
+than claiming to be current.
+
+State lives in `docs/design/STORE.md` (per-field text and lock levels) and in the same asset
+registry as the art pipeline, under the store types — so a rejected capsule stays rejected
+with its reason. A store page is premature before there is footage a stranger would watch for
+twenty seconds; `steam-store-page` checks that first and routes back to the prototype if it is
+missing, because wishlists for an unvalidated loop are a pleasant way to avoid making the
+game.
 
 The first two rows of the ownership table are the reason this pack exists: across the ~140
 skills in the other Godot packs, none covers scene-file surgery and none covers Godot 3 → 4

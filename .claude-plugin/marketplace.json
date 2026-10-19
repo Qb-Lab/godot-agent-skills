@@ -8,7 +8,7 @@
     {
       "name": "godot",
       "source": "./",
-      "description": "Godot 4.x control layer (hooks) plus scene-surgery, API-guard, verification, workflow, and design skills."
+      "description": "Godot 4.x control layer (hooks) plus scene-surgery, API-guard, verification, workflow, design, art-pipeline, and Steam store skills."
     }
   ]
 }

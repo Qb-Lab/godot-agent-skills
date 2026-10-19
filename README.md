@@ -73,6 +73,8 @@ they exit silently rather than blocking work.
 |---|---|
 | `market-scan` | Current-market research protocol — Steam, Twitch, reviews, saturation; never from recall |
 | `concept-eval` | Scored concept gate returning BUILD / PROTOTYPE / MODIFY / RESEARCH MORE / KILL |
+| `steam-store-page` | The store page in funnel order — capsule to copy to tags — with every claim tiered OFFICIAL / BEST PRACTICE / EXPERIMENT and the official half re-read from Steamworks |
+| `steam-store-review` | Compliance matrix, scored conversion review at the sizes players see, then exactly one weakness and one highest-leverage fix |
 
 Skills compose — every skill whose trigger matches loads, not just one. The standing combo:
 an economy or progression design still being decided loads `loop-and-economy` for the domain
@@ -82,11 +84,12 @@ outcome. No special syntax needed — "grill my upgrade economy: …" triggers b
 The strategy and design skills also chain into a greenlight pipeline for new game ideas —
 `market-scan → concept-eval → scope-control → design → prototype → playtest-review`, with
 `design-record` keeping every verdict on file. The router documents the full pipeline. Roles
-you might expect and won't find — level design, enemy/AI design, narrative, Steam launch
-strategy — are deliberately absent: they are premature before a validated prototype, and the
-technical halves are covered by the larger packs this one delegates to. Art direction *is*
+you might expect and won't find — level design, enemy/AI design, narrative — are deliberately
+absent: they are premature before a validated prototype, and the technical halves are covered
+by the larger packs this one delegates to. Art direction and the Steam store page *are*
 present (below), but built the same way: blockouts are the prototype, nothing is polished
-before the loop is verified fun, and taste stays a human call.
+before the loop is verified fun, a store page waits for footage a stranger would watch, and
+taste stays a human call.
 
 ### Production — art direction and asset production
 
@@ -95,6 +98,7 @@ before the loop is verified fun, and taste stays a human call.
 | `art-direction` | The design-side `grill-me`: one decision at a time, taught before asked, options with tradeoffs and a recommendation — then five curated visual-concept images of one gameplay moment to compare and refine before the Art Bible locks — producing the Art Bible, the production plan, and buildable asset specs |
 | `asset-builder` | Executes approved asset work by the right method — blockout before beauty, shader not texture, kit not thirty walls — and leaves it game-ready in Godot with its state recorded |
 | `asset-review` | The separated judge: inspects the real files and scenes against concept, Art Bible, spec, budgets, and Godot practice; the only thing that marks an asset VALIDATED |
+| `steam-store-assets` | Capsule, logo, trailer, screenshots and store GIFs — produced as candidates, judged on the thumbnail ladder rather than at full size, captured deterministically in Godot |
 
 State lives in the game project, not in the conversation: `docs/design/ART-BIBLE.md`,
 `PRODUCTION.md`, and `asset-registry.json` beside `design-record`'s `GAME.md` and
@@ -102,6 +106,28 @@ State lives in the game project, not in the conversation: `docs/design/ART-BIBLE
 what is approved, what was rejected, and what is next — so "continue with the game design"
 three weeks later starts from the record, not from questions already answered. The pipeline,
 lifecycle, and nine worked examples are in [docs/ART-PIPELINE.md](docs/ART-PIPELINE.md).
+
+### The store pipeline
+
+The three Steam skills run the same direction → production → judge loop as the art pipeline,
+and share its registry. Two rules carry them:
+
+- **Every claim is tiered.** `OFFICIAL` (documented by Valve, and you read the doc today),
+  `BEST PRACTICE` (a conversion recommendation from people who sell games), `EXPERIMENT`
+  (plausible here, unproven, worth testing). A third-party recommendation is never presented as
+  a Valve requirement — a team that believes "at least 7 screenshots" is a rule burns a day on
+  a number Valve never asked for, and never learns what the border it shipped was worth.
+- **Official requirements are read, not recalled** — `market-scan`'s rule applied to Steam's
+  own documentation. `steam-store-page/references/steam-requirements.md` carries the date it
+  was last read (2026-10-19) rather than claiming to be current, and anything not re-read is
+  reported as `NEEDS VERIFICATION` instead of `PASS`.
+
+State lives in `docs/design/STORE.md` — the verbatim text of every field with a lock level —
+plus store entries in the same `asset-registry.json`, so a rejected capsule stays rejected
+with the user's reason attached. `steam-store-assets/scripts/capsule-check.py` checks an
+image against every official slot and builds the thumbnail ladder (listing size, ~184px wide,
+greyscale, squint) with whatever downscaler is on PATH, because a capsule approved at full
+resolution has not been tested at the size that decides.
 
 ### Router
 
@@ -162,6 +188,11 @@ npx skills add Qb-Lab/godot-agent-skills \
 # The art pipeline — direction, production, review (install all three; they share one registry tool)
 npx skills add Qb-Lab/godot-agent-skills \
   -s art-direction -s asset-builder -s asset-review -s design-record
+
+# The store pipeline — page, assets, review (asset-review's registry tool lives in art-direction)
+npx skills add Qb-Lab/godot-agent-skills \
+  -s steam-store-page -s steam-store-assets -s steam-store-review \
+  -s art-direction -s market-scan
 ```
 
 `using-godot-skills` references the other skills by name, so install it last or edit its tables

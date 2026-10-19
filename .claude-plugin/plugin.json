@@ -1,7 +1,7 @@
 {
   "name": "godot-agent-skills",
-  "version": "0.3.0",
-  "description": "Control layer for AI agents in Godot 4.x — hooks that inject the standing rules, gate structural .tscn/.tres edits, and enforce verify-before-done — plus scene-file surgery, a Godot 3->4 API guard, a studio layer (greenlight, scope, playtest, decision memory), and an art pipeline (art direction, asset production, asset review with a persistent registry). Composes with GodotPrompter and awesome-gamedev.",
+  "version": "0.4.0",
+  "description": "Control layer for AI agents in Godot 4.x — hooks that inject the standing rules, gate structural .tscn/.tres edits, and enforce verify-before-done — plus scene-file surgery, a Godot 3->4 API guard, a studio layer (greenlight, scope, playtest, decision memory), an art pipeline (art direction, asset production, asset review with a persistent registry), and a Steam store pipeline (page, assets, compliance and conversion review). Composes with GodotPrompter and awesome-gamedev.",
   "author": {
     "name": "Qb-Lab"
   },
@@ -15,6 +15,8 @@
     "agent-skills",
     "hooks",
     "art-direction",
-    "asset-pipeline"
+    "asset-pipeline",
+    "steam",
+    "store-page"
   ]
 }
