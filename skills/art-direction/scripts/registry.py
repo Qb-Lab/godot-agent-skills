@@ -31,6 +31,8 @@ TYPES = [
     "character", "creature", "architecture", "environment", "prop", "interactive-prop",
     "weapon", "vehicle", "ui", "texture", "material", "shader", "animation", "vfx",
     "decal", "icon", "concept", "reference", "audio-hook", "kit",
+    # store assets (steam-store-page / steam-store-assets / steam-store-review)
+    "capsule", "logo", "trailer", "screenshot", "showcase",
 ]
 FILE_KINDS = ["source", "output", "godot", "concept", "reference", "spec"]
 ID_RE = re.compile(r"^[A-Z][A-Z0-9]*(_[A-Z0-9]+)+$")
@@ -615,7 +617,8 @@ def cmd_validate(args, path):
             warnings.append("%s: kit %s has no registry entry" % (aid, a["kit"]))
         if a.get("status") in ("PRODUCTION", "INTEGRATED", "VALIDATED") and not a.get("files"):
             warnings.append("%s: %s but no files recorded" % (aid, a["status"]))
-        if a.get("status") in ("INTEGRATED", "VALIDATED") and not a["godot"].get("scene") and a["type"] not in ("concept", "reference", "texture", "material", "shader", "animation", "audio-hook", "icon", "decal", "kit", "ui"):
+        if a.get("status") in ("INTEGRATED", "VALIDATED") and not a["godot"].get("scene") and a["type"] not in ("concept", "reference", "texture", "material", "shader", "animation", "audio-hook", "icon", "decal", "kit", "ui", "capsule", "logo", "trailer",
+                                                                   "screenshot", "showcase"):
             warnings.append("%s: %s but no Godot scene recorded" % (aid, a["status"]))
         for f in a.get("files", []):
             p = f["path"]
